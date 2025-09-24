@@ -127,6 +127,3 @@ Les contributions sont les bienvenues ! Si vous avez des idées pour améliorer 
 3. Commitez vos changements (`git commit -m 'feat: Ajout d'une nouvelle fonctionnalité'`).
 4. Pushez vers la branche (`git push origin feature/NouvelleFonctionnalite`).
 5. Ouvrez une Pull Request.
-
-## 📄 Licence
-Ce projet est sous licence MIT. Voir le fichier `LICENSE` pour plus de détails.
