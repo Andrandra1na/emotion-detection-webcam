@@ -4,8 +4,6 @@
 
 Ce projet a pour objectif de détecter les émotions humaines en temps réel à partir du flux vidéo d'une webcam. Il utilise des techniques de vision par ordinateur pour extraire les points de repère du visage (facial landmarks) et des modèles de Machine Learning pour classifier l'émotion correspondante.
 
-![Demo du projet](https://media.giphy.com/media/v1.Y2lkPTc5MGI3NjExdDMyNjhodHVxM2d2NWNtdjU2MG1hMHIxZ2t5a254NWZrbjAwcnJmZCZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/3o7TKSjRrfIPjeiVyE/giphy.gif)
-*(**Note :** Remplacez le lien ci-dessus par une capture d'écran ou un GIF de votre projet en action !)*
 
 ## 📋 Table des Matières
 1. [Fonctionnalités Clés](#-fonctionnalités-clés)
