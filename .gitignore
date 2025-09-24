@@ -1,0 +1,20 @@
+# Fichiers de données et archives
+# Il est indiqué en phrase dans le README comment obtenir ou utiliser le dataset.
+archive_4.zip
+
+# Modèles de Machine Learning entraînés
+# Le README expliquera comment générer ces fichiers.
+joblib RandomForest/
+joblib SVM/
+
+# Cache et fichiers compilés Python
+__pycache__/
+*.pyc
+*.pyo
+
+# Fichiers de configuration des IDEs
+.idea/
+.vscode/
+
+# Points de contrôle Jupyter Notebook
+.ipynb_checkpoints/
