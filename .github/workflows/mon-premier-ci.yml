@@ -42,7 +42,7 @@ jobs:
           
           # On ajoute Hugging Face comme une destination (remote)
           # REMPLACE BIEN LES NOMS SI BESOIN : https://PSEUDO:$TOKEN@huggingface.co/spaces/PSEUDO/NOM_DU_SPACE
-          git remote add space https://Andrandra1na:$HF_TOKEN@huggingface.co/spaces/Andrandra1na/emotion-rf-webcam
+          git remote add space https://andrandra1na:$HF_TOKEN@huggingface.co/spaces/Andrandra1na/emotion-rf-webcam
           
           # On pousse le code avec force (--force) pour mettre à jour le site
           git push --force space main
