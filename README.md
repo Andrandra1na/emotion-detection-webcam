@@ -4,6 +4,7 @@
 
 Ce projet a pour objectif de détecter les émotions humaines en temps réel à partir du flux vidéo d'une webcam. Il utilise des techniques de vision par ordinateur pour extraire les points de repère du visage (facial landmarks) et des modèles de Machine Learning pour classifier l'émotion correspondante.
 
+<<<<<<< HEAD
 ## 📋 Table des Matières
 1. [Fonctionnalités Clés](#-fonctionnalités-clés)
 2. [Technologies Utilisées](#-technologies-utilisées)
@@ -36,6 +37,41 @@ Ce projet a pour objectif de détecter les émotions humaines en temps réel à 
 ## 🛑 Prérequis
 Avant de commencer, vous aurez besoin de télécharger le modèle pré-entraîné de Dlib pour la détection des points de repère faciaux :
 - [shape_predictor_68_face_landmarks.dat](http.dlib.net/files/shape_predictor_68_face_landmarks.dat.bz2)
+=======
+
+## 📋 Table des Matières
+1. [Fonctionnalités Clés](#-fonctionnalités-clés)
+2. [Technologies Utilisées](#-technologies-utilisées)
+3. [Prérequis](#-prérequis)
+4. [Installation](#-installation)
+5. [Utilisation](#-utilisation)
+6. [Comment ça fonctionne ?](#-comment-ça-fonctionne-)
+7. [Structure du Projet](#-structure-du-projet)
+8. [Contribuer](#-contribuer)
+9. [Licence](#-licence)
+
+## ✨ Fonctionnalités Clés
+- **Détection de visage en temps réel** : Localise le visage principal dans le flux vidéo.
+- **Extraction de 68 points de repère faciaux** : Cartographie les traits du visage (yeux, bouche, nez...).
+- **Classification d'émotions** : Utilise des modèles pré-entraînés pour prédire l'émotion.
+- **Deux modèles au choix** :
+  - **Support Vector Machine (SVM)** : Un classifieur robuste et efficace.
+  - **Random Forest** : Un modèle d'ensemble performant.
+- **Affichage en direct** : L'émotion détectée est affichée directement sur le flux vidéo.
+
+## 🛠️ Technologies Utilisées
+- **Python 3.8+**
+- **OpenCV** : Pour la capture et le traitement vidéo en temps réel.
+- **Dlib** : Pour la détection de visages et l'extraction des points de repère faciaux.
+- **Scikit-learn** : Pour l'implémentation des modèles SVM et Random Forest.
+- **Joblib** : Pour la sauvegarde et le chargement des modèles entraînés.
+- **Numpy** : Pour les manipulations numériques.
+- **Jupyter Notebook** : Pour l'expérimentation et l'entraînement des modèles.
+
+## 🛑 Prérequis
+Avant de commencer, vous aurez besoin de télécharger le modèle pré-entraîné de Dlib pour la détection des points de repère faciaux :
+- **[shape_predictor_68_face_landmarks.dat](http.dlib.net/files/shape_predictor_68_face_landmarks.dat.bz2)**
+>>>>>>> develop
 
 Téléchargez-le, décompressez-le et placez le fichier `shape_predictor_68_face_landmarks.dat` à la racine de votre projet.
 
@@ -43,19 +79,31 @@ Téléchargez-le, décompressez-le et placez le fichier `shape_predictor_68_face
 
 Suivez ces étapes pour mettre en place l'environnement de développement.
 
+<<<<<<< HEAD
 1. Clonez le dépôt :
+=======
+**1. Clonez le dépôt :**
+>>>>>>> develop
 ```bash
 git clone https://github.com/<VOTRE-USERNAME>/emotion-detection-webcam.git
 cd emotion-detection-webcam
 ```
 
+<<<<<<< HEAD
 2. Créez un environnement virtuel (recommandé) :
+=======
+**2. Créez un environnement virtuel (recommandé) :**
+>>>>>>> develop
 ```bash
 python -m venv venv
 source venv/bin/activate  # Sur Windows: venv\Scripts\activate
 ```
 
+<<<<<<< HEAD
 3. Installez les dépendances :
+=======
+**3. Installez les dépendances :**
+>>>>>>> develop
 Créez un fichier `requirements.txt` avec le contenu suivant :
 ```txt
 opencv-python
@@ -68,10 +116,17 @@ Puis installez-le :
 pip install -r requirements.txt
 ```
 
+<<<<<<< HEAD
 4. Préparez le jeu de données :
 Ce projet utilise un jeu de données qui n'est pas inclus dans le dépôt. Veuillez ajouter ici les instructions pour que l'utilisateur télécharge et décompresse `archive_4.zip` au bon endroit.
 
 5. Entraînez les modèles :
+=======
+**4. Préparez le jeu de données :**
+Ce projet utilise un jeu de données qui n'est pas inclus dans le dépôt. **Veuillez ajouter ici les instructions pour que l'utilisateur télécharge et décompresse `archive_4.zip` au bon endroit.**
+
+**5. Entraînez les modèles :**
+>>>>>>> develop
 Les modèles `.joblib` sont ignorés par Git. Vous devez les générer en exécutant les notebooks Jupyter. Lancez Jupyter :
 ```bash
 jupyter notebook
@@ -84,11 +139,16 @@ Ouvrez et exécutez les cellules des deux notebooks suivants pour entraîner les
 
 Une fois l'installation terminée, vous pouvez lancer la détection d'émotions. Assurez-vous que votre webcam est connectée et fonctionnelle.
 
+<<<<<<< HEAD
 Pour utiliser le modèle SVM :
+=======
+**Pour utiliser le modèle SVM :**
+>>>>>>> develop
 ```bash
 python webcamwithmodelsvm.py
 ```
 
+<<<<<<< HEAD
 Pour utiliser le modèle Random Forest :
 ```bash
 python webcamwithmodelrandomforest.py
@@ -103,6 +163,22 @@ Le pipeline de traitement est le suivant :
 4.  Prétraitement : Les coordonnées des points sont normalisées et une Analyse en Composantes Principales (ACP) est appliquée pour réduire la dimensionnalité et extraire les caractéristiques les plus pertinentes.
 5.  Prédiction : Le vecteur de caractéristiques est passé au modèle de Machine Learning chargé (SVM ou Random Forest) qui prédit l'émotion.
 6.  Affichage : Un rectangle est dessiné autour du visage et l'émotion prédite est affichée en haut de celui-ci.
+=======
+**Pour utiliser le modèle Random Forest :**
+```bash
+python webcamwithmodelrandomforest.py
+```
+Appuyez sur la touche **'q'** pour quitter l'application.
+
+## 🧠 Comment ça fonctionne ?
+Le pipeline de traitement est le suivant :
+1.  **Capture Vidéo** : Une image est capturée depuis la webcam.
+2.  **Détection de Visage** : La bibliothèque Dlib détecte la position du visage dans l'image.
+3.  **Extraction des Points de Repère** : Le modèle `shape_predictor_68_face_landmarks.dat` est utilisé pour extraire les 68 points clés du visage.
+4.  **Prétraitement** : Les coordonnées des points sont normalisées et une Analyse en Composantes Principales (ACP) est appliquée pour réduire la dimensionnalité et extraire les caractéristiques les plus pertinentes.
+5.  **Prédiction** : Le vecteur de caractéristiques est passé au modèle de Machine Learning chargé (SVM ou Random Forest) qui prédit l'émotion.
+6.  **Affichage** : Un rectangle est dessiné autour du visage et l'émotion prédite est affichée en haut de celui-ci.
+>>>>>>> develop
 
 ## 📂 Structure du Projet
 ```
