@@ -1,3 +1,14 @@
+---
+title: Emotion Detection Webcam
+emoji: 🎥
+colorFrom: purple
+colorTo: pink
+sdk: gradio
+sdk_version: 4.19.2
+app_file: app.py
+pinned: false
+---
+
 # 🚀 Détection d'Émotions en Temps Réel via Webcam
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](https://opensource.org/licenses/MIT)
