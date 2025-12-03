@@ -1,23 +1,48 @@
-name: Mon Premier CI
-on: [push]
+name: CI/CD Pipeline Complet
+on:
+  push:
+    branches: [main] # Se déclenche uniquement sur la branche principale
 
 jobs:
-  verification-code:
+  build-and-deploy:
     runs-on: ubuntu-latest
     steps:
+      # 1. On récupère le code
       - name: Récupérer le code
         uses: actions/checkout@v3
+        with:
+          fetch-depth: 0 # Indispensable pour copier tout l'historique vers Hugging Face
 
+      # 2. On installe Python (Partie CI)
       - name: Installer Python
         uses: actions/setup-python@v4
         with:
           python-version: '3.9'
 
+      # 3. On installe les dépendances
       - name: Installer les dépendances
         run: |
           pip install flake8
           if [ -f requirements.txt ]; then pip install -r requirements.txt; fi
 
-      - name: Vérifier la qualité du code (Linting)
+      # 4. On teste la qualité (Partie CI)
+      - name: Vérifier la qualité du code
         run: |
           flake8 . --count --select=E9,F63,F7,F82 --show-source --statistics
+
+      # 5. DÉPLOIEMENT (Partie CD)
+      # Cette étape ne se lance que si l'étape 4 a réussi.
+      - name: Déploiement vers Hugging Face Hub
+        env:
+          HF_TOKEN: ${{ secrets.HF_TOKEN }} # On récupère la clé du coffre-fort
+        run: |
+          # On configure Git pour qu'il sache qui on est (obligatoire)
+          git config --global user.email "action@github.com"
+          git config --global user.name "GitHub Action"
+          
+          # On ajoute Hugging Face comme une destination (remote)
+          # REMPLACE BIEN LES NOMS SI BESOIN : https://PSEUDO:$TOKEN@huggingface.co/spaces/PSEUDO/NOM_DU_SPACE
+          git remote add space https://Andrandra1na:$HF_TOKEN@huggingface.co/spaces/Andrandra1na/emotion-rf-webcam
+          
+          # On pousse le code avec force (--force) pour mettre à jour le site
+          git push --force space main
