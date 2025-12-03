@@ -2,62 +2,75 @@ import gradio as gr
 import joblib
 import cv2
 import numpy as np
+import os
 
-# 1. Chargement des modèles
-# On utilise les mêmes chemins que dans ton dossier
-print("Chargement du modèle RandomForest...")
-try:
-    model = joblib.load("joblib RandomForest/final_emotion_detection_RF_model.joblib")
-    label_encoder = joblib.load("joblib RandomForest/label_encoder_RF.joblib")
-    pca = joblib.load("joblib RandomForest/pca_RF.joblib")
-    print("Modèles chargés avec succès !")
-except Exception as e:
-    print(f"Erreur lors du chargement des modèles : {e}")
+# --- CONFIGURATION CHEMINS ---
+# On vérifie si le dossier existe pour éviter le crash brutal
+BASE_DIR = "joblib SVM"
+PATH_MODEL = os.path.join(BASE_DIR, "final_emotion_detection_svm_model.joblib")
+PATH_PCA = os.path.join(BASE_DIR, "pca.joblib")
+PATH_LABEL = os.path.join(BASE_DIR, "label_encoder.joblib")
+
+print(f"Dossier de travail actuel : {os.getcwd()}")
+print(f"Contenu du dossier : {os.listdir('.')}")
+
+# --- CHARGEMENT ---
+print("Chargement du modèle SVM...")
+MODELS_LOADED = False
+ERROR_MSG = ""
+
+if os.path.exists(BASE_DIR):
+    try:
+        model = joblib.load(PATH_MODEL)
+        pca = joblib.load(PATH_PCA)
+        label_encoder = joblib.load(PATH_LABEL)
+        print("✅ Modèle SVM chargé avec succès !")
+        MODELS_LOADED = True
+    except Exception as e:
+        print(f"❌ Erreur chargement joblib : {e}")
+        ERROR_MSG = str(e)
+else:
+    print(f"❌ ERREUR GRAVE : Le dossier '{BASE_DIR}' est introuvable sur le serveur.")
+    ERROR_MSG = f"Dossier '{BASE_DIR}' introuvable. Vérifiez l'upload."
 
 def predict_emotion(image):
-    """
-    Fonction qui prend une image (depuis la webcam du navigateur),
-    applique le même traitement que ton script local,
-    et renvoie l'émotion.
-    """
+    if not MODELS_LOADED:
+        return f"Erreur serveur : {ERROR_MSG}"
+    
     if image is None:
-        return "En attente de la caméra..."
+        return "En attente..."
 
-    # L'image vient de Gradio en format RGB
-    # Etape 1 : Conversion en niveaux de gris
-    # Note: Gradio envoie du RGB, donc on fait RGB2GRAY (pas BGR2GRAY)
-    gray = cv2.cvtColor(image, cv2.COLOR_RGB2GRAY)
-    
-    # Etape 2 : Redimensionnement (48x48) - Comme dans ton script
-    resized_img = cv2.resize(gray, (48, 48))
-    
-    # Etape 3 : Normalisation (CRUCIAL : / 255.0) - Comme dans ton script
-    normalized_img = resized_img / 255.0
-    
-    # Etape 4 : Aplatissement (Flatten)
-    flattened_img = normalized_img.flatten().reshape(1, -1)
-    
-    # Etape 5 : Transformation PCA
-    pca_transformed_img = pca.transform(flattened_img)
-    
-    # Etape 6 : Prédiction
-    emotion_prediction = model.predict(pca_transformed_img)
-    
-    # Etape 7 : Décodage du label
-    emotion_label = label_encoder.inverse_transform(emotion_prediction)[0]
-    
-    return emotion_label
+    try:
+        # Conversion
+        if len(image.shape) == 3:
+            gray = cv2.cvtColor(image, cv2.COLOR_RGB2GRAY)
+        else:
+            gray = image
 
-# 2. Création de l'interface Web
+        # Traitement identique à l'entraînement
+        resized_img = cv2.resize(gray, (48, 48))
+        normalized_img = resized_img / 255.0
+        flattened_img = normalized_img.flatten().reshape(1, -1)
+        pca_transformed_img = pca.transform(flattened_img)
+
+        # Prédiction
+        emotion_prediction = model.predict(pca_transformed_img)
+        emotion_label = label_encoder.inverse_transform(emotion_prediction)[0]
+        
+        return str(emotion_label)
+
+    except Exception as e:
+        return f"Erreur calcul : {e}"
+
+# Interface
 interface = gr.Interface(
     fn=predict_emotion,
-    inputs=gr.Image(sources=["webcam"], streaming=True, type="numpy"), 
+    inputs=gr.Image(sources=["webcam"], streaming=True, type="numpy"),
     outputs="text",
-    live=True, # Permet le temps réel
-    title="Détection d'Émotion (Random Forest)",
-    description="Ce modèle analyse votre visage en temps réel (48x48 pixels + PCA + Random Forest)."
+    live=True,
+    title="Détection Émotion (SVM)",
+    description="Si vous voyez ce message, le déploiement a réussi."
 )
 
-# Lancement de l'application
 if __name__ == "__main__":
     interface.launch()
