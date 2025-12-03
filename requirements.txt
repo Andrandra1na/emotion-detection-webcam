@@ -1,5 +1,5 @@
-gradio==4.26.0
-huggingface-hub==0.23.0
+gradio==3.50.2
+huggingface-hub==0.19.4
 scikit-learn
 joblib
 opencv-python-headless
