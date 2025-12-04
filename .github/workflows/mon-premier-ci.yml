@@ -1,34 +1,39 @@
-name: CI/CD Pipeline Robuste
+name: Déploiement Robuste vers Hugging Face
 on:
   push:
     branches: [main]
 
 jobs:
-  build-and-deploy:
+  deploy:
     runs-on: ubuntu-latest
     steps:
-      # 1. On récupère le code
+      # 1. On récupère ton code (fichiers normaux + gros fichiers)
       - name: Récupérer le code
         uses: actions/checkout@v3
-        
-      # 2. On installe Python
+        with:
+          lfs: true  # On s'assure de bien prendre les gros fichiers si présents
+
+      # 2. On installe un Python récent
       - name: Installer Python
         uses: actions/setup-python@v4
         with:
           python-version: '3.10'
 
-      # 3. On installe l'outil officiel Hugging Face
-      - name: Installer les outils
+      # 3. On installe la librairie Hugging Face (version stable)
+      - name: Installer les dépendances
         run: pip install huggingface_hub
 
-      # 4. DÉPLOIEMENT VIA CLI (La méthode infaillible)
+      # 4. LE DÉPLOIEMENT (La correction est ICI)
       - name: Upload vers Hugging Face
         env:
           HF_TOKEN: ${{ secrets.HF_TOKEN }}
         run: |
-          # On se connecte
-          huggingface-cli login --token $HF_TOKEN
+          # Au lieu de 'huggingface-cli', on utilise 'python -m huggingface_hub.cli'
+          # C'est la méthode qui ne peut PAS échouer avec "command not found"
           
-          # On envoie TOUT le dossier courant (.) vers ton Space
-          # L'outil gère automatiquement les fichiers binaires (.joblib)
-          huggingface-cli upload andrandraina/emotion-rf-webcam . . --repo-type space --exclude ".git/*" ".github/*"
+          echo "Connexion à Hugging Face..."
+          python -m huggingface_hub.cli login --token $HF_TOKEN
+          
+          echo "Démarrage de l'upload..."
+          # On envoie le contenu du dossier actuel (.) vers ton Space
+          python -m huggingface_hub.cli upload andrandraina/emotion-rf-webcam . . --repo-type space --exclude ".git/*" ".github/*"
