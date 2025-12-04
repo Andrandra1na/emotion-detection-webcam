@@ -1,4 +1,4 @@
-name: Déploiement Robuste vers Hugging Face
+name: Déploiement Infaillible (Python API)
 on:
   push:
     branches: [main]
@@ -7,33 +7,47 @@ jobs:
   deploy:
     runs-on: ubuntu-latest
     steps:
-      # 1. On récupère ton code (fichiers normaux + gros fichiers)
+      # 1. Récupération du code
       - name: Récupérer le code
         uses: actions/checkout@v3
         with:
-          lfs: true  # On s'assure de bien prendre les gros fichiers si présents
+          lfs: true
 
-      # 2. On installe un Python récent
+      # 2. Installation Python
       - name: Installer Python
         uses: actions/setup-python@v4
         with:
           python-version: '3.10'
 
-      # 3. On installe la librairie Hugging Face (version stable)
-      - name: Installer les dépendances
+      # 3. Installation de la librairie Hugging Face
+      - name: Installer la librairie
         run: pip install huggingface_hub
 
-      # 4. LE DÉPLOIEMENT (La correction est ICI)
+      # 4. UPLOAD VIA SCRIPT PYTHON (La méthode "Expert")
+      # On écrit un petit programme Python qui fait le travail.
+      # Impossible d'avoir une erreur "Command not found".
       - name: Upload vers Hugging Face
         env:
           HF_TOKEN: ${{ secrets.HF_TOKEN }}
         run: |
-          # Au lieu de 'huggingface-cli', on utilise 'python -m huggingface_hub.cli'
-          # C'est la méthode qui ne peut PAS échouer avec "command not found"
+          python -c "
+          import os
+          from huggingface_hub import HfApi
+
+          # On récupère le token
+          token = os.environ['HF_TOKEN']
           
-          echo "Connexion à Hugging Face..."
-          python -m huggingface_hub.cli login --token $HF_TOKEN
+          # On initialise l'API
+          api = HfApi(token=token)
           
-          echo "Démarrage de l'upload..."
-          # On envoie le contenu du dossier actuel (.) vers ton Space
-          python -m huggingface_hub.cli upload andrandraina/emotion-rf-webcam . . --repo-type space --exclude ".git/*" ".github/*"
+          print('Connexion réussie. Démarrage de l\'upload...')
+          
+          # On envoie le dossier
+          api.upload_folder(
+              folder_path='.',
+              repo_id='andrandraina/emotion-rf-webcam',
+              repo_type='space',
+              ignore_patterns=['.git/*', '.github/*']
+          )
+          print('Upload terminé avec succès ! 🚀')
+          "

@@ -5,37 +5,41 @@ import numpy as np
 import os
 
 # --- CONFIGURATION CHEMINS ---
-# On vérifie si le dossier existe pour éviter le crash brutal
-BASE_DIR = "joblib SVM"
+# On pointe vers le nouveau nom de dossier "models"
+BASE_DIR = "models"
 PATH_MODEL = os.path.join(BASE_DIR, "final_emotion_detection_svm_model.joblib")
 PATH_PCA = os.path.join(BASE_DIR, "pca.joblib")
 PATH_LABEL = os.path.join(BASE_DIR, "label_encoder.joblib")
 
-print(f"Dossier de travail actuel : {os.getcwd()}")
-print(f"Contenu du dossier : {os.listdir('.')}")
+# Debugging : On affiche ce qu'il y a sur le serveur pour être sûr
+print(f"📂 Dossier actuel : {os.getcwd()}")
+if os.path.exists(BASE_DIR):
+    print(f"✅ Le dossier '{BASE_DIR}' existe. Contenu : {os.listdir(BASE_DIR)}")
+else:
+    print(f"❌ ERREUR : Le dossier '{BASE_DIR}' est introuvable !")
+    print(f"   Contenu de la racine : {os.listdir('.')}")
 
 # --- CHARGEMENT ---
 print("Chargement du modèle SVM...")
 MODELS_LOADED = False
 ERROR_MSG = ""
 
-if os.path.exists(BASE_DIR):
-    try:
+try:
+    if os.path.exists(PATH_MODEL):
         model = joblib.load(PATH_MODEL)
         pca = joblib.load(PATH_PCA)
         label_encoder = joblib.load(PATH_LABEL)
         print("✅ Modèle SVM chargé avec succès !")
         MODELS_LOADED = True
-    except Exception as e:
-        print(f"❌ Erreur chargement joblib : {e}")
-        ERROR_MSG = str(e)
-else:
-    print(f"❌ ERREUR GRAVE : Le dossier '{BASE_DIR}' est introuvable sur le serveur.")
-    ERROR_MSG = f"Dossier '{BASE_DIR}' introuvable. Vérifiez l'upload."
+    else:
+        ERROR_MSG = "Fichiers modèles introuvables."
+except Exception as e:
+    print(f"❌ Erreur chargement : {e}")
+    ERROR_MSG = str(e)
 
 def predict_emotion(image):
     if not MODELS_LOADED:
-        return f"Erreur serveur : {ERROR_MSG}"
+        return f"Erreur serveur : {ERROR_MSG}. (Vérifiez les logs)"
     
     if image is None:
         return "En attente..."
@@ -47,7 +51,7 @@ def predict_emotion(image):
         else:
             gray = image
 
-        # Traitement identique à l'entraînement
+        # Traitement
         resized_img = cv2.resize(gray, (48, 48))
         normalized_img = resized_img / 255.0
         flattened_img = normalized_img.flatten().reshape(1, -1)
@@ -69,7 +73,7 @@ interface = gr.Interface(
     outputs="text",
     live=True,
     title="Détection Émotion (SVM)",
-    description="Si vous voyez ce message, le déploiement a réussi."
+    description="Projet Détection temps réel"
 )
 
 if __name__ == "__main__":
