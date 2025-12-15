@@ -1,13 +1,11 @@
 ---
-
 title: Emotion Detection Webcam
-emoji: 🎥
 colorFrom: purple
 colorTo: pink
 sdk: gradio
 app_file: app.py
 pinned: false
--------------
+---
 
 # 🚀 Détection d’Émotions en Temps Réel via Webcam
 
