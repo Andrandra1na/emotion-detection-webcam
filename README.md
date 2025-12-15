@@ -1,4 +1,5 @@
 ---
+
 title: Emotion Detection Webcam
 emoji: 🎥
 colorFrom: purple
@@ -6,207 +7,177 @@ colorTo: pink
 sdk: gradio
 app_file: app.py
 pinned: false
----
+-------------
 
-# 🚀 Détection d'Émotions en Temps Réel via Webcam
+# 🚀 Détection d’Émotions en Temps Réel via Webcam
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](https://opensource.org/licenses/MIT)
 
-Ce projet a pour objectif de détecter les émotions humaines en temps réel à partir du flux vidéo d'une webcam. Il utilise des techniques de vision par ordinateur pour extraire les points de repère du visage (facial landmarks) et des modèles de Machine Learning pour classifier l'émotion correspondante.
+Ce projet permet de détecter les émotions humaines en temps réel à partir du flux vidéo d’une webcam. Il combine des techniques de vision par ordinateur (détection de visage et points de repère faciaux) et des modèles de Machine Learning pour classifier l’émotion observée.
 
-<<<<<<< HEAD
-## 📋 Table des Matières
-1. [Fonctionnalités Clés](#-fonctionnalités-clés)
-2. [Technologies Utilisées](#-technologies-utilisées)
-3. [Prérequis](#-prérequis)
-4. [Installation](#-installation)
-5. [Utilisation](#-utilisation)
-6. [Comment ça fonctionne ?](#-comment-ça-fonctionne-)
-7. [Structure du Projet](#-structure-du-projet)
-8. [Contribuer](#-contribuer)
-9. [Licence](#-licence)
+---
 
-## ✨ Fonctionnalités Clés
-- Détection de visage en temps réel : Localise le visage principal dans le flux vidéo.
-- Extraction de 68 points de repère faciaux : Cartographie les traits du visage (yeux, bouche, nez...).
-- Classification d'émotions : Utilise des modèles pré-entraînés pour prédire l'émotion.
-- Deux modèles au choix :
-  - Support Vector Machine (SVM) : Un classifieur robuste et efficace.
-  - Random Forest : Un modèle d'ensemble performant.
-- Affichage en direct : L'émotion détectée est affichée directement sur le flux vidéo.
+## 📋 Table des matières
 
-## 🛠️ Technologies Utilisées
-- Python 3.8+
-- OpenCV : Pour la capture et le traitement vidéo en temps réel.
-- Dlib : Pour la détection de visages et l'extraction des points de repère faciaux.
-- Scikit-learn : Pour l'implémentation des modèles SVM et Random Forest.
-- Joblib : Pour la sauvegarde et le chargement des modèles entraînés.
-- Numpy : Pour les manipulations numériques.
-- Jupyter Notebook : Pour l'expérimentation et l'entraînement des modèles.
+1. Fonctionnalités
+2. Technologies utilisées
+3. Prérequis
+4. Installation
+5. Entraînement des modèles
+6. Utilisation
+7. Fonctionnement interne
+8. Structure du projet
+9. Contribution
+10. Licence
 
-## 🛑 Prérequis
-Avant de commencer, vous aurez besoin de télécharger le modèle pré-entraîné de Dlib pour la détection des points de repère faciaux :
-- [shape_predictor_68_face_landmarks.dat](http.dlib.net/files/shape_predictor_68_face_landmarks.dat.bz2)
-=======
+---
 
-## 📋 Table des Matières
-1. [Fonctionnalités Clés](#-fonctionnalités-clés)
-2. [Technologies Utilisées](#-technologies-utilisées)
-3. [Prérequis](#-prérequis)
-4. [Installation](#-installation)
-5. [Utilisation](#-utilisation)
-6. [Comment ça fonctionne ?](#-comment-ça-fonctionne-)
-7. [Structure du Projet](#-structure-du-projet)
-8. [Contribuer](#-contribuer)
-9. [Licence](#-licence)
+## ✨ Fonctionnalités
 
-## ✨ Fonctionnalités Clés
-- **Détection de visage en temps réel** : Localise le visage principal dans le flux vidéo.
-- **Extraction de 68 points de repère faciaux** : Cartographie les traits du visage (yeux, bouche, nez...).
-- **Classification d'émotions** : Utilise des modèles pré-entraînés pour prédire l'émotion.
-- **Deux modèles au choix** :
-  - **Support Vector Machine (SVM)** : Un classifieur robuste et efficace.
-  - **Random Forest** : Un modèle d'ensemble performant.
-- **Affichage en direct** : L'émotion détectée est affichée directement sur le flux vidéo.
+* Détection de visage en temps réel via la webcam
+* Extraction de 68 points de repère faciaux (facial landmarks)
+* Classification automatique des émotions
+* Choix du modèle de prédiction :
 
-## 🛠️ Technologies Utilisées
-- **Python 3.8+**
-- **OpenCV** : Pour la capture et le traitement vidéo en temps réel.
-- **Dlib** : Pour la détection de visages et l'extraction des points de repère faciaux.
-- **Scikit-learn** : Pour l'implémentation des modèles SVM et Random Forest.
-- **Joblib** : Pour la sauvegarde et le chargement des modèles entraînés.
-- **Numpy** : Pour les manipulations numériques.
-- **Jupyter Notebook** : Pour l'expérimentation et l'entraînement des modèles.
+  * Support Vector Machine (SVM)
+  * Random Forest
+* Affichage en direct de l’émotion détectée sur le flux vidéo
+
+---
+
+## 🛠️ Technologies utilisées
+
+* Python 3.8+
+* OpenCV (capture et traitement vidéo)
+* Dlib (détection de visage et landmarks)
+* Scikit-learn (SVM et Random Forest)
+* Joblib (sauvegarde et chargement des modèles)
+* NumPy (calculs numériques)
+* Jupyter Notebook (entraînement et expérimentation)
+
+---
 
 ## 🛑 Prérequis
-Avant de commencer, vous aurez besoin de télécharger le modèle pré-entraîné de Dlib pour la détection des points de repère faciaux :
-- **[shape_predictor_68_face_landmarks.dat](http.dlib.net/files/shape_predictor_68_face_landmarks.dat.bz2)**
->>>>>>> develop
 
-Téléchargez-le, décompressez-le et placez le fichier `shape_predictor_68_face_landmarks.dat` à la racine de votre projet.
+Avant de lancer le projet, téléchargez le modèle Dlib des points de repère faciaux :
+
+* shape_predictor_68_face_landmarks.dat
+  [http://dlib.net/files/shape_predictor_68_face_landmarks.dat.bz2](http://dlib.net/files/shape_predictor_68_face_landmarks.dat.bz2)
+
+Décompressez le fichier et placez `shape_predictor_68_face_landmarks.dat` à la racine du projet.
+
+---
 
 ## 🔧 Installation
 
-Suivez ces étapes pour mettre en place l'environnement de développement.
+1. Cloner le dépôt
 
-<<<<<<< HEAD
-1. Clonez le dépôt :
-=======
-**1. Clonez le dépôt :**
->>>>>>> develop
 ```bash
 git clone https://github.com/<VOTRE-USERNAME>/emotion-detection-webcam.git
 cd emotion-detection-webcam
 ```
 
-<<<<<<< HEAD
-2. Créez un environnement virtuel (recommandé) :
-=======
-**2. Créez un environnement virtuel (recommandé) :**
->>>>>>> develop
+2. Créer un environnement virtuel (recommandé)
+
 ```bash
 python -m venv venv
-source venv/bin/activate  # Sur Windows: venv\Scripts\activate
+source venv/bin/activate  # Windows : venv\Scripts\activate
 ```
 
-<<<<<<< HEAD
-3. Installez les dépendances :
-=======
-**3. Installez les dépendances :**
->>>>>>> develop
-Créez un fichier `requirements.txt` avec le contenu suivant :
-```txt
-opencv-python
-dlib
-scikit-learn==1.3.0  # Spécifier une version peut éviter des conflits
-numpy
-```
-Puis installez-le :
+3. Installer les dépendances
+
 ```bash
 pip install -r requirements.txt
 ```
 
-<<<<<<< HEAD
-4. Préparez le jeu de données :
-Ce projet utilise un jeu de données qui n'est pas inclus dans le dépôt. Veuillez ajouter ici les instructions pour que l'utilisateur télécharge et décompresse `archive_4.zip` au bon endroit.
+Contenu du fichier `requirements.txt` :
 
-5. Entraînez les modèles :
-=======
-**4. Préparez le jeu de données :**
-Ce projet utilise un jeu de données qui n'est pas inclus dans le dépôt. **Veuillez ajouter ici les instructions pour que l'utilisateur télécharge et décompresse `archive_4.zip` au bon endroit.**
+```txt
+opencv-python
+dlib
+scikit-learn==1.3.0
+numpy
+```
 
-**5. Entraînez les modèles :**
->>>>>>> develop
-Les modèles `.joblib` sont ignorés par Git. Vous devez les générer en exécutant les notebooks Jupyter. Lancez Jupyter :
+---
+
+## 🧪 Entraînement des modèles
+
+Les fichiers `.joblib` ne sont pas versionnés dans le dépôt. Les modèles doivent être entraînés localement.
+
+1. Lancer Jupyter Notebook
+
 ```bash
 jupyter notebook
 ```
-Ouvrez et exécutez les cellules des deux notebooks suivants pour entraîner les modèles et sauvegarder les fichiers `.joblib` dans les dossiers `joblib SVM/` et `joblib RandomForest/` :
-- `SVM_WEBCAM_FINAL.ipynb`
-- `AMELIORATION_MODELE_WEBCAM.ipynb`
+
+2. Exécuter les notebooks suivants :
+
+* `SVM_WEBCAM_FINAL.ipynb` (modèle SVM)
+* `AMELIORATION_MODELE_WEBCAM.ipynb` (modèle Random Forest)
+
+Les modèles entraînés seront sauvegardés dans les dossiers correspondants.
+
+---
 
 ## ▶️ Utilisation
 
-Une fois l'installation terminée, vous pouvez lancer la détection d'émotions. Assurez-vous que votre webcam est connectée et fonctionnelle.
+Assurez-vous que votre webcam est connectée et fonctionnelle.
 
-<<<<<<< HEAD
-Pour utiliser le modèle SVM :
-=======
-**Pour utiliser le modèle SVM :**
->>>>>>> develop
+* Lancer la détection avec le modèle SVM
+
 ```bash
 python webcamwithmodelsvm.py
 ```
 
-<<<<<<< HEAD
-Pour utiliser le modèle Random Forest :
+* Lancer la détection avec le modèle Random Forest
+
 ```bash
 python webcamwithmodelrandomforest.py
 ```
-Appuyez sur la touche 'q' pour quitter l'application.
 
-## 🧠 Comment ça fonctionne ?
-Le pipeline de traitement est le suivant :
-1.  Capture Vidéo : Une image est capturée depuis la webcam.
-2.  Détection de Visage : La bibliothèque Dlib détecte la position du visage dans l'image.
-3.  Extraction des Points de Repère : Le modèle `shape_predictor_68_face_landmarks.dat` est utilisé pour extraire les 68 points clés du visage.
-4.  Prétraitement : Les coordonnées des points sont normalisées et une Analyse en Composantes Principales (ACP) est appliquée pour réduire la dimensionnalité et extraire les caractéristiques les plus pertinentes.
-5.  Prédiction : Le vecteur de caractéristiques est passé au modèle de Machine Learning chargé (SVM ou Random Forest) qui prédit l'émotion.
-6.  Affichage : Un rectangle est dessiné autour du visage et l'émotion prédite est affichée en haut de celui-ci.
-=======
-**Pour utiliser le modèle Random Forest :**
-```bash
-python webcamwithmodelrandomforest.py
-```
-Appuyez sur la touche **'q'** pour quitter l'application.
+Appuyez sur la touche **q** pour quitter l’application.
 
-## 🧠 Comment ça fonctionne ?
-Le pipeline de traitement est le suivant :
-1.  **Capture Vidéo** : Une image est capturée depuis la webcam.
-2.  **Détection de Visage** : La bibliothèque Dlib détecte la position du visage dans l'image.
-3.  **Extraction des Points de Repère** : Le modèle `shape_predictor_68_face_landmarks.dat` est utilisé pour extraire les 68 points clés du visage.
-4.  **Prétraitement** : Les coordonnées des points sont normalisées et une Analyse en Composantes Principales (ACP) est appliquée pour réduire la dimensionnalité et extraire les caractéristiques les plus pertinentes.
-5.  **Prédiction** : Le vecteur de caractéristiques est passé au modèle de Machine Learning chargé (SVM ou Random Forest) qui prédit l'émotion.
-6.  **Affichage** : Un rectangle est dessiné autour du visage et l'émotion prédite est affichée en haut de celui-ci.
->>>>>>> develop
+---
 
-## 📂 Structure du Projet
+## 🧠 Fonctionnement interne
+
+1. Capture du flux vidéo depuis la webcam
+2. Détection du visage avec Dlib
+3. Extraction des 68 points de repère faciaux
+4. Normalisation des coordonnées et réduction de dimension (ACP)
+5. Prédiction de l’émotion via le modèle sélectionné
+6. Affichage de l’émotion et du cadre du visage en temps réel
+
+---
+
+## 📂 Structure du projet
+
 ```
 .
-├── .gitignore                    # Fichiers à ignorer par Git
-├── AMELIORATION_MODELE_WEBCAM.ipynb # Notebook pour l'entraînement du modèle Random Forest
-├── SVM_WEBCAM_FINAL.ipynb        # Notebook pour l'entraînement du modèle SVM
-├── webcamwithmodelrandomforest.py # Script principal (utilise le modèle Random Forest)
-├── webcamwithmodelsvm.py         # Script principal (utilise le modèle SVM)
-├── requirements.txt              # Liste des dépendances Python
-├── README.md                     # Ce fichier
-└── shape_predictor_68_face_landmarks.dat # (Prérequis) Modèle Dlib
+├── AMELIORATION_MODELE_WEBCAM.ipynb
+├── SVM_WEBCAM_FINAL.ipynb
+├── webcamwithmodelsvm.py
+├── webcamwithmodelrandomforest.py
+├── requirements.txt
+├── README.md
+└── shape_predictor_68_face_landmarks.dat
 ```
 
-## 🤝 Contribuer
-Les contributions sont les bienvenues ! Si vous avez des idées pour améliorer ce projet, n'hésitez pas à forker le dépôt et à créer une Pull Request.
-1. Forkez le projet.
-2. Créez votre branche de fonctionnalité (`git checkout -b feature/NouvelleFonctionnalite`).
-3. Commitez vos changements (`git commit -m 'feat: Ajout d'une nouvelle fonctionnalité'`).
-4. Pushez vers la branche (`git push origin feature/NouvelleFonctionnalite`).
-5. Ouvrez une Pull Request.
+---
+
+## 🤝 Contribution
+
+Les contributions sont bienvenues.
+
+1. Forker le projet
+2. Créer une branche (`feature/nom-fonctionnalite`)
+3. Commiter les changements
+4. Pusher la branche
+5. Ouvrir une Pull Request
+
+---
+
+## 📄 Licence
+
+Ce projet est distribué sous licence MIT.
